@@ -10,13 +10,3 @@ set lines=25 columns=100          " Window dimensions.
 
 set guioptions-=r                 " Don't show right scrollbar
 
-colorscheme vividchalk
-set linespace=3
-
-let g:bufExplorerShowRelativePath=1
-
-set tabstop=2
-set shiftwidth=2
-set si
-set spell
-set nowrap
