@@ -60,6 +60,11 @@ set si
 set spell
 set nowrap
 
+set list
+
+scriptencoding utf-8
+set listchars=tab:➤\ ,trail:-,eol:↲
+
 " Tab mappings.
 map <leader>tt :tabnew<cr>
 map <leader>te :tabedit
