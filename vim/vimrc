@@ -23,7 +23,7 @@ set wildmode=list:longest         " Complete files like a shell.
 set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
 
-set number                        " Show line numbers.
+set rnu                           " Show relative line numbers.
 set ruler                         " Show cursor position.
 
 set incsearch                     " Highlight matches as you type.
@@ -42,6 +42,14 @@ set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
 
 set clipboard=unnamed
 
+nnoremap ; :
+vmap Q gq
+nmap Q gqap
+nmap <silent> ,/ :nohlsearch<CR>
+cmap w!! w !sudo tee % >/dev/null
+
+let mapleader=","
+
 " UNCOMMENT TO USE
 "set tabstop=2                    " Global tab width.
 "set shiftwidth=2                 " And again, related.
@@ -49,7 +57,7 @@ set clipboard=unnamed
 
 set laststatus=2                  " Show the status line all the time
 " Useful status information at bottom of screen
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{fugitive#statusline()}%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
 
 colorscheme vividchalk
 set linespace=3
@@ -96,6 +104,9 @@ set noswapfile
 let g:indent_guides_enable_on_vim_startup = 1
 
 set cursorline
+
+autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
+autocmd FileType html,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
 
 nmap <D-[> <<
 nmap <D-]> >>

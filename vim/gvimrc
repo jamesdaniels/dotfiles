@@ -16,3 +16,4 @@ set guioptions=aAce
 
 set nobackup
 set nuw=6
+set rnu
