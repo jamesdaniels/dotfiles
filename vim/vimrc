@@ -42,10 +42,17 @@ set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
 
 set clipboard=unnamed
 
+" Map ; as :, so I don't need to hit shift
 nnoremap ; :
+
+" Map Q to text reflowing
 vmap Q gq
 nmap Q gqap
+
+" Map ,/ to clearing the search buffer so highlights disappear
 nmap <silent> ,/ :nohlsearch<CR>
+
+" Map w!! to save the file with sudo
 cmap w!! w !sudo tee % >/dev/null
 
 let mapleader=","
