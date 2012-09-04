@@ -1,3 +1,9 @@
+" Smooth fonts
 set antialias
+
+" Hide the scrollbars and MacVim's toolbar
 set guioptions+=lLrb
 set guioptions-=TlLrb
+
+" Set the line-spacing, only GUI
+set linespace=3
