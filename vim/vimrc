@@ -13,21 +13,33 @@ filetype plugin indent on     " required!
 
 Bundle 'gmarik/vundle'
 
-Bundle 'tpope/vim-pathogen'
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'scrooloose/nerdtree'
 Bundle 'vim-ruby/vim-ruby'
-Bundle 'tpope/vim-rails'
+Bundle 'myusuf3/numbers.vim'
+
+Bundle 'itchyny/lightline.vim'
+
+Bundle 'kien/ctrlp.vim'
+
+Bundle 'tpope/vim-vividchalk'
+Bundle 'tpope/vim-rvm'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'nono/vim-handlebars'
+
+Bundle 'tpope/vim-pathogen'
+Bundle 'tpope/vim-bundler'
 Bundle 'tpope/vim-fugitive'
-Bundle 'ervandew/supertab'
-Bundle 'tpope/vim-surround'
-Bundle 'wincent/Command-T'
-Bundle 'scrooloose/syntastic'
+
+" Bundle 'tpope/vim-rails'
+" Bundle 'tpope/vim-surround'
+" Bundle 'tpope/vim-repeat'
+" Bundle 'tpope/vim-commentary'
+" Bundle 'tpope/vim-abolish'
+
+Bundle 'ap/vim-css-color'
+Bundle 'hail2u/vim-css3-syntax'
+ 
 Bundle 'c9s/bufexplorer'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-abolish'
+Bundle 'mileszs/ack.vim'
 
 " ================ General Config ====================
 
@@ -51,7 +63,7 @@ set hidden
 syntax enable
 set guifont=Mensch-Regular:h11
 set background=dark
-colorscheme solarized
+colorscheme vividchalk 
 
 " Visual Indications
 
@@ -83,6 +95,8 @@ set expandtab
 filetype plugin on
 filetype indent on
 
+autocmd FileType html setlocal indentkeys-=*<Return>
+
 " Display tabs and trailing spaces visually
 set list listchars=tab:\ \ ,trail:·
 
@@ -101,21 +115,6 @@ set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=1
 
-" ================ Powerline ========================
-
-set fillchars+=stl:\ ,stlnc:\
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_colorscheme='skwp'
-let g:Powerline_theme='skwp'
-
-" ================ NerdTree =========================
-
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let g:NERDTreeWinSize = 30
-let g:nerdtree_tabs_open_on_gui_startup = 0
-let g:nerdtree_tabs_focus_on_files = 1
-
 " ================ Helpers ==========================
 
 cmap w!! w !sudo tee % >/dev/null " Map w!! to save the file with sudo
@@ -127,6 +126,79 @@ set cursorline
 " ================ Ruby =============================
 
 let ruby_fold = 1
+au BufNewFile,BufRead *.mobile.erb set filetype=eruby
+
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+
+let g:syntastic_rb_checkers=['mri']
+
+" ================ CtrlP =====================
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+" ================ Light line =======================
+
+let g:lightline = {
+      \ 'mode_map': { 'c': 'NORMAL' },
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'modified': 'MyModified',
+      \   'readonly': 'MyReadonly',
+      \   'fugitive': 'MyFugitive',
+      \   'filename': 'MyFilename',
+      \   'fileformat': 'MyFileformat',
+      \   'filetype': 'MyFiletype',
+      \   'fileencoding': 'MyFileencoding',
+      \   'mode': 'MyMode',
+      \ },
+      \ 'separator': { 'left': '⮀', 'right': '⮂' },
+      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+      \ }
+
+function! MyModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+endfunction
+
+function! MyFilename()
+  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() : 
+        \  &ft == 'unite' ? unite#get_status_string() : 
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  return &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head()) ? '⭠ '.fugitive#head() : ''
+endfunction
+
+function! MyFileformat()
+  return winwidth('.') > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  return winwidth('.') > 60 ? lightline#mode() : ''
+endfunction
 
 " ================ Colors ===========================
 
