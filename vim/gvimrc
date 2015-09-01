@@ -7,3 +7,5 @@ set guioptions-=TlLrb
 
 " Set the line-spacing, only GUI
 set linespace=3
+
+highlight ExtraWhitespace ctermbg=red

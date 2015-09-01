@@ -12,6 +12,7 @@ call vundle#rc()
 filetype plugin indent on     " required!
 
 Bundle 'gmarik/vundle'
+Bundle 'ntpeters/vim-better-whitespace'
 
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'myusuf3/numbers.vim'
@@ -28,6 +29,7 @@ Bundle 'nono/vim-handlebars'
 Bundle 'tpope/vim-pathogen'
 Bundle 'tpope/vim-bundler'
 Bundle 'tpope/vim-fugitive'
+Bundle 'scrooloose/nerdtree'
 
 " Bundle 'tpope/vim-rails'
 " Bundle 'tpope/vim-surround'
